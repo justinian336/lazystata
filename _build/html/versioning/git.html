@@ -1,0 +1,139 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Using Git For Versioning (for the adventurous) &#8212; lazystata 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="3. Think of Do Files Like Lego" href="../modules/modules.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-git-for-versioning-for-the-adventurous">
+<h1>4. Using Git For Versioning (for the adventurous)<a class="headerlink" href="#using-git-for-versioning-for-the-adventurous" title="Permalink to this headline">¶</a></h1>
+<p>When you work with other people, or in projects that take a very long time, you’ll find yourself creating several versions of your code.
+This is a tricky thing to do, and can create a large number of files and all sorts of confusions.</p>
+<div class="section" id="versioning-systems-in-the-wild">
+<h2>4.1. Versioning systems in the wild<a class="headerlink" href="#versioning-systems-in-the-wild" title="Permalink to this headline">¶</a></h2>
+<p>Here are some ways people use to version their Stata code, along with their flaws:</p>
+<ol class="arabic simple">
+<li>Create an edited copy of the do file and store it on the same directory.</li>
+</ol>
+<p>Usually these files are called something along the lines of <cite>analysis1.do</cite>, followed by <cite>analysis2.do</cite> and so on, until it reaches <cite>analysis FINAL ver3 Feb.do</cite>.
+Some researchers will even add a comment at the beginning of each file containing the name of the author and the date of edition.</p>
+<p>Ok, that’s not really a versioning system.</p>
+<p>First, it’s wasteful because you’re just duplicating content with some changes.</p>
+<p>Second, it’s risky. Nothing prevents you from mistakenly overwriting your changes on the same old file.</p>
+<p>Finally, what’s the point of adding the name of the author and the date of edition as a comment on the code? Isn’t this information already available in the properties of the file? Besides that, nothing forces you to update it every time you update a file.</p>
+<ol class="arabic simple">
+<li>Adding the date of edition to the name of the file.</li>
+</ol>
+<p>Again, you run the risk of overwriting your changes into the wrong file.</p>
+<ol class="arabic simple">
+<li>Creating separate directories</li>
+</ol>
+<p>Usually the directories are named after the date of edition, the stage of the revision process by the journal, etc.</p>
+<p>This is a better system, because it makes it more difficult to overwrite your changes into the wrong file. It’s also easier to maintain, because the directory where the file is stored doesn’t depend on your imperfect memory every time you edit the file.</p>
+<p>For simple projects, this method is encouraged for versioning simple, individual projects.</p>
+<p>However, it suffers some important flaws when it comes to more complicated projects:</p>
+<ul class="simple">
+<li>It’s still wasteful because you’re storing many times the same code, instead of just the changes introduced on each version.</li>
+<li>You can still introduce changes into older versions by mistake.</li>
+<li>There’s no easy way of comparing two versions of a Do file and of knowing exactly who introduced a given change.</li>
+<li>In collaborative research, all researchers have to share the same directory structure and the same versioning system. Besides that, it gets complicated when many people need to introduce changes into the same version of the same file.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Using Git For Versioning (for the adventurous)</a><ul>
+<li><a class="reference internal" href="#versioning-systems-in-the-wild">4.1. Versioning systems in the wild</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../modules/modules.html" title="previous chapter">3. Think of Do Files Like Lego</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/versioning/git.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Juan Martinez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/versioning/git.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
