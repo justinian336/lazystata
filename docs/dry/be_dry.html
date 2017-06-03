@@ -118,6 +118,80 @@ foreach g of numlist 1/9{
 <p class="last">Don’t over-simplify your code to the point where it becomes hard to understand. The purpose here is to make your code readable to other humans, including you in the future. Therefore, readability has the biggest priority.</p>
 </div>
 </div>
+<div class="section" id="global-variables-and-loops">
+<h2>2.3. Global Variables And Loops<a class="headerlink" href="#global-variables-and-loops" title="Permalink to this headline">¶</a></h2>
+<p>You can combine global variables and loops to write more manageable analysis files. Imagine a case where you need to estimate a regression:</p>
+<ul class="simple">
+<li>Using three different sets of variables</li>
+<li>For two different sample definitions: male-only and female-only</li>
+<li>For two different dependent variables</li>
+</ul>
+<p>In this case you have <cite>3x2x2 = 12</cite> different equations to estimate. The simplest version of such a file would look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reg</span> <span class="n">math_score</span> <span class="n">iq_score</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">math_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">math_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="n">fam_income</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">math_score</span> <span class="n">iq_score</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">1</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">math_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">math_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="n">fam_income</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">1</span>
+<span class="n">eststo</span>
+<span class="n">esttab</span> <span class="n">using</span> <span class="s2">&quot;results\math.csv&quot;</span><span class="p">,</span> <span class="n">star</span><span class="p">(</span><span class="o">*</span> <span class="o">.</span><span class="mi">1</span> <span class="o">**</span> <span class="o">.</span><span class="mi">05</span> <span class="o">***</span> <span class="o">.</span><span class="mi">01</span><span class="p">)</span> <span class="n">b</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">se</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">replace</span>
+<span class="n">estimates</span> <span class="n">clear</span>
+
+<span class="n">reg</span> <span class="n">lang_score</span> <span class="n">iq_score</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">lang_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">lang_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="n">fam_income</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">0</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">lang_score</span> <span class="n">iq_score</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">1</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">lang_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">1</span>
+<span class="n">eststo</span>
+<span class="n">reg</span> <span class="n">lang_score</span> <span class="n">iq_score</span> <span class="n">father_educ</span> <span class="n">mother_educ</span> <span class="n">fam_income</span> <span class="k">if</span> <span class="n">girl</span><span class="o">==</span><span class="mi">1</span>
+<span class="n">eststo</span>
+<span class="n">esttab</span> <span class="n">using</span> <span class="s2">&quot;results\lang.csv&quot;</span><span class="p">,</span> <span class="n">star</span><span class="p">(</span><span class="o">*</span> <span class="o">.</span><span class="mi">1</span> <span class="o">**</span> <span class="o">.</span><span class="mi">05</span> <span class="o">***</span> <span class="o">.</span><span class="mi">01</span><span class="p">)</span> <span class="n">b</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">se</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">replace</span>
+<span class="n">estimates</span> <span class="n">clear</span>
+</pre></div>
+</div>
+<p>I hid a typo somewhere in that code. You noticed it, didn’t you?</p>
+<p>Let’s restructure this code. First, let’s define the three model specifications using global variables:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">Specification</span> <span class="mi">1</span>
+<span class="k">global</span> <span class="n">spec_1</span> <span class="s2">&quot;iq_score&quot;</span>
+
+<span class="o">*</span> <span class="n">Specification</span> <span class="mi">2</span>
+<span class="k">global</span> <span class="n">spec_2</span> <span class="s2">&quot;$spec_1 father_educ mother_educ&quot;</span>
+
+<span class="o">*</span> <span class="n">Specification</span> <span class="mi">3</span>
+<span class="k">global</span> <span class="n">spec_3</span> <span class="s2">&quot;$spec_2 fam_income&quot;</span>
+</pre></div>
+</div>
+<p>Now let’s use loops to run our estimations:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for subject in math lang {
+        for is_girl of numlist  0 1 {
+                for i of 1(1)3 {
+                        local dep_var = `subject&#39;_score
+                        display &quot;Dependent variable `dep_var&#39;, specification `i&#39;, girl == `is_girl&#39;&quot;
+                        reg `dep_var&#39; spec_`i&#39; if girl==`is_girl&#39;
+                        eststo
+                }
+        }
+        esttab using &quot;results\`subject&#39;.csv&quot;, star(* .1 ** .05 *** .01) b(3) se(3) replace
+        estimates clear
+}
+</pre></div>
+</div>
+<p>This code is easier to follow because:</p>
+<blockquote>
+<div><p>1- I have explicitly declared the different sets of controls.</p>
+<p>2- The process of estimating -&gt; storing results is the same for every regression is the same, so writing it 12 times is wasteful and error-prone. Give my eyes some rest! The code using global variables and loops only shows me this logic once.</p>
+<p>3- If I need to make changes to my model, such as adding a new variable, I just have to affect one or two lines of code, instead of 12!!</p>
+</div></blockquote>
+</div>
 </div>
 
 
@@ -131,6 +205,7 @@ foreach g of numlist 1/9{
 <li><a class="reference internal" href="#">2. The DRY Principle</a><ul>
 <li><a class="reference internal" href="#global-variables">2.1. Global Variables</a></li>
 <li><a class="reference internal" href="#loops">2.2. Loops</a></li>
+<li><a class="reference internal" href="#global-variables-and-loops">2.3. Global Variables And Loops</a></li>
 </ul>
 </li>
 </ul>
