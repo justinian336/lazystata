@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2. The DRY Principle &#8212; lazystata 1.0 documentation</title>
+    <title>3. The DRY Principle &#8212; lazystata 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. Think of Do Files Like Lego" href="../modules/modules.html" />
-    <link rel="prev" title="1. Give Your Project Some Structure" href="../structure/structure.html" />
+    <link rel="next" title="4. Think of Do Files Like Lego" href="../modules/modules.html" />
+    <link rel="prev" title="2. Give Your Project Some Structure" href="../structure/structure.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -44,10 +44,10 @@
           <div class="body" role="main">
             
   <div class="section" id="the-dry-principle">
-<h1>2. The DRY Principle<a class="headerlink" href="#the-dry-principle" title="Permalink to this headline">¶</a></h1>
+<h1>3. The DRY Principle<a class="headerlink" href="#the-dry-principle" title="Permalink to this headline">¶</a></h1>
 <p><strong>DRY</strong> stands for <em>Don’t Repeat Yourself</em>. It’s the principle that says that you should simplyfy your code by eliminating repetitions.</p>
 <div class="section" id="global-variables">
-<h2>2.1. Global Variables<a class="headerlink" href="#global-variables" title="Permalink to this headline">¶</a></h2>
+<h2>3.1. Global Variables<a class="headerlink" href="#global-variables" title="Permalink to this headline">¶</a></h2>
 <p>One important source of repetitions in Stata Do files are directory names. Often, you perform many saving and opening operations over files located under the same directory.</p>
 <p>This can be annoying when doing collaborative research, because directory names are usually not the same for all researchers. What ends up happening, is that each researcher will have to change the directory name to accomodate their file system, which is a waste of time.</p>
 <p>You can make it easy for other researchers to follow, by defining the directory name into a global variable:</p>
@@ -68,7 +68,7 @@
 <p>As you can see, the path in <cite>main_dir</cite> is present three times in this file. Changing the text one by one would be a real trouble. By defining the path through a global variable, this task has been reduced to changing just one line of code!</p>
 </div>
 <div class="section" id="loops">
-<h2>2.2. Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
+<h2>3.2. Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
 <p>Do files often contain blocks that repeat a single logic once and once again. Look at this example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gen</span> <span class="n">total_primary</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_primary</span><span class="p">,</span> <span class="n">girls_primary</span><span class="p">)</span>
 <span class="n">gen</span> <span class="n">total_secondary</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_secondary</span><span class="p">,</span> <span class="n">girls_secondary</span><span class="p">)</span>
@@ -119,7 +119,7 @@ foreach g of numlist 1/9{
 </div>
 </div>
 <div class="section" id="global-variables-and-loops">
-<h2>2.3. Global Variables And Loops<a class="headerlink" href="#global-variables-and-loops" title="Permalink to this headline">¶</a></h2>
+<h2>3.3. Global Variables And Loops<a class="headerlink" href="#global-variables-and-loops" title="Permalink to this headline">¶</a></h2>
 <p>You can combine global variables and loops to write more manageable analysis files. Imagine a case where you need to estimate a regression:</p>
 <ul class="simple">
 <li>Using three different sets of variables</li>
@@ -188,7 +188,7 @@ foreach g of numlist 1/9{
 <p>This code is easier to follow because:</p>
 <blockquote>
 <div><p>1- I have explicitly declared the different sets of controls.</p>
-<p>2- The process of estimating -&gt; storing results is the same for every regression is the same, so writing it 12 times is wasteful and error-prone. Give my eyes some rest! The code using global variables and loops only shows me this logic once.</p>
+<p>2- The process of estimating -&gt; storing results is the same for every regression, so writing it 12 times is wasteful and error-prone. Give my eyes some rest! The code using global variables and loops only shows me this logic once.</p>
 <p>3- If I need to make changes to my model, such as adding a new variable, I just have to affect one or two lines of code, instead of 12!!</p>
 </div></blockquote>
 </div>
@@ -202,10 +202,10 @@ foreach g of numlist 1/9{
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2. The DRY Principle</a><ul>
-<li><a class="reference internal" href="#global-variables">2.1. Global Variables</a></li>
-<li><a class="reference internal" href="#loops">2.2. Loops</a></li>
-<li><a class="reference internal" href="#global-variables-and-loops">2.3. Global Variables And Loops</a></li>
+<li><a class="reference internal" href="#">3. The DRY Principle</a><ul>
+<li><a class="reference internal" href="#global-variables">3.1. Global Variables</a></li>
+<li><a class="reference internal" href="#loops">3.2. Loops</a></li>
+<li><a class="reference internal" href="#global-variables-and-loops">3.3. Global Variables And Loops</a></li>
 </ul>
 </li>
 </ul>
@@ -213,8 +213,8 @@ foreach g of numlist 1/9{
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../structure/structure.html" title="previous chapter">1. Give Your Project Some Structure</a></li>
-      <li>Next: <a href="../modules/modules.html" title="next chapter">3. Think of Do Files Like Lego</a></li>
+      <li>Previous: <a href="../structure/structure.html" title="previous chapter">2. Give Your Project Some Structure</a></li>
+      <li>Next: <a href="../modules/modules.html" title="next chapter">4. Think of Do Files Like Lego</a></li>
   </ul></li>
 </ul>
 </div>

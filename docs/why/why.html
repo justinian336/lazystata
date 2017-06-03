@@ -1,0 +1,150 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Introduction &#8212; lazystata 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Give Your Project Some Structure" href="../structure/structure.html" />
+    <link rel="prev" title="Lazy Stata" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>You know I don’t lie when I say that spaguetti code can get you in serious trouble. You have been there.</p>
+<ul class="simple">
+<li>Remember that time when a journal asked you for revisions, but you had to spend some good time trying to understand your code from six months ago?</li>
+<li>What about that time when you had to work with that other professor, but understanding his code took you more than you’d like to admit?</li>
+<li>Let’s not forget that day when you tried to check an earlier version of your code, but you couldn’t find it because you overwrote it.</li>
+</ul>
+<p>Trying to understand complicated code is not why you entered the PhD program, or became a professor.</p>
+<p>You’re too busy advising government officials and making great discoveries! And don’t forget about your personal life!</p>
+<p>In the world of Software Engineering, it is widely known that code gets read more than it gets written, and therefore it has to be clean.</p>
+<p>However, most Stata users don’t come from such background, and schools often don’t give importance to teaching how to write good code when teaching Stata.</p>
+<p>Bad code steals your time, makes you angry and frustrates you, and that’s bad. This style guide gives you some tips that will make your life as a researcher easier.</p>
+<div class="section" id="what-s-in-this-guide">
+<h2>1.1. What’s In This Guide?<a class="headerlink" href="#what-s-in-this-guide" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Suggestions to make your code more readable and easy to manipulate.</li>
+<li>An example project that shows how to structure your code and your data in a way that’s easy to maintain and to understand.</li>
+</ul>
+</div>
+<div class="section" id="what-s-not-in-this-guide">
+<h2>1.2. What’s NOT In This Guide?<a class="headerlink" href="#what-s-not-in-this-guide" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>A Stata tutorial for beginners. This guide won’t introduce basic concepts, it will only show how to use them in efficient ways.</li>
+<li>A guide on creating macros. This might be included in the future; for now, this guide concentrates on design patterns for using existing packages.</li>
+</ul>
+</div>
+<div class="section" id="who-is-it-for">
+<h2>1.3. Who Is It For?<a class="headerlink" href="#who-is-it-for" title="Permalink to this headline">¶</a></h2>
+<p>This guide is aimed at researchers who have already some experience with Stata.</p>
+<p>If you’re a graduate student working on your disertation, this guide will give you some tips on managing the code for your papers. Some patterns in this guide might make your life easy when replying to journals.</p>
+<p>Professors and researchers can also find valuable design patters to help them process their data more efficiently. Especially if you’re working on a team, you might learn one trick or two to make it easy to collaborate with your partners.</p>
+<p>If you’re a beginner and still need to learn the basics of Stata, you can still read this guide in order to learn some general tips on programming and structuring your project. However, some examples might feel difficult to follow.</p>
+<p>Experienced Stata who are used to writing readable, easy to maintain code might find that the advice in this guide is not of great help. Indeed, there’s not a perfect way of writing code, and the best style might depend on the project and the person. In that case, you can still find interesting tips. For example, no matter how experienced you are, odds are high that you have never used Git for your research. In that case, the chapter on versioning can help you add a new tool to your stack.</p>
+</div>
+<div class="section" id="collaborating">
+<h2>1.4. Collaborating<a class="headerlink" href="#collaborating" title="Permalink to this headline">¶</a></h2>
+<p><cite>Lazy Stata</cite> is an open source project, and is open for Pull Requests. If you have suggestions on how to improve the content of this guide, feel free to create an Issue. Front-end developers can also collaborate on improving the layout and making it more interactive.</p>
+<p>The guide is compiled with Sphinx and is currently deployed on Github Pages. For instructions on the compilation process, see the README file.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Introduction</a><ul>
+<li><a class="reference internal" href="#what-s-in-this-guide">1.1. What’s In This Guide?</a></li>
+<li><a class="reference internal" href="#what-s-not-in-this-guide">1.2. What’s NOT In This Guide?</a></li>
+<li><a class="reference internal" href="#who-is-it-for">1.3. Who Is It For?</a></li>
+<li><a class="reference internal" href="#collaborating">1.4. Collaborating</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Lazy Stata</a></li>
+      <li>Next: <a href="../structure/structure.html" title="next chapter">2. Give Your Project Some Structure</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/why/why.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Juan Martinez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/why/why.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

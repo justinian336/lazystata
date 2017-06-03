@@ -155,7 +155,7 @@ This code is easier to follow because:
  
  1- I have explicitly declared the different sets of controls.
  
- 2- The process of estimating -> storing results is the same for every regression is the same, so writing it 12 times is wasteful and error-prone. Give my eyes some rest! The code using global variables and loops only shows me this logic once.
+ 2- The process of estimating -> storing results is the same for every regression, so writing it 12 times is wasteful and error-prone. Give my eyes some rest! The code using global variables and loops only shows me this logic once.
  
  3- If I need to make changes to my model, such as adding a new variable, I just have to affect one or two lines of code, instead of 12!!
 

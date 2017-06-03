@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Think of Do Files Like Lego &#8212; lazystata 1.0 documentation</title>
+    <title>4. Think of Do Files Like Lego &#8212; lazystata 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. Using Git For Versioning (for the adventurous)" href="../versioning/git.html" />
-    <link rel="prev" title="2. The DRY Principle" href="../dry/be_dry.html" />
+    <link rel="next" title="5. Using Git For Versioning (for the adventurous)" href="../versioning/git.html" />
+    <link rel="prev" title="3. The DRY Principle" href="../dry/be_dry.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -44,7 +44,7 @@
           <div class="body" role="main">
             
   <div class="section" id="think-of-do-files-like-lego">
-<h1>3. Think of Do Files Like Lego<a class="headerlink" href="#think-of-do-files-like-lego" title="Permalink to this headline">¶</a></h1>
+<h1>4. Think of Do Files Like Lego<a class="headerlink" href="#think-of-do-files-like-lego" title="Permalink to this headline">¶</a></h1>
 <p>The data crunching part of research tends to go through the following stages, some of which overlap:</p>
 <ol class="arabic simple">
 <li><strong>Data cleaning</strong>: reading the raw data (possibly a <cite>csv</cite> file), renaming the variables (hopefuly in a way that’s easy to understand), creating lables, etc. This can involve different files from different sources.</li>
@@ -64,7 +64,7 @@
 <p>But even if you take the time to search and select the exact piece of code you need to re-run, isn’t that wasteful?</p>
 <p>Believe me, large Do files are a big source of stress, avoid them by breaking up your code in parts in a logical way.</p>
 <div class="section" id="separating-concerns">
-<h2>3.1. Separating Concerns<a class="headerlink" href="#separating-concerns" title="Permalink to this headline">¶</a></h2>
+<h2>4.1. Separating Concerns<a class="headerlink" href="#separating-concerns" title="Permalink to this headline">¶</a></h2>
 <p>Many Computer Scientists share the view that one piece of code should do just one thing, and do it very well. In Stata, you can follow this principle by dividing your code in many Do files that do one thing in specific. Then, create a <em>Run this.do</em> file that calls the other Do files in steps, performing all the necessary operations in order.</p>
 <p>See the following example of a Do file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">more</span> <span class="n">off</span>
@@ -115,8 +115,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">3. Think of Do Files Like Lego</a><ul>
-<li><a class="reference internal" href="#separating-concerns">3.1. Separating Concerns</a></li>
+<li><a class="reference internal" href="#">4. Think of Do Files Like Lego</a><ul>
+<li><a class="reference internal" href="#separating-concerns">4.1. Separating Concerns</a></li>
 </ul>
 </li>
 </ul>
@@ -124,8 +124,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../dry/be_dry.html" title="previous chapter">2. The DRY Principle</a></li>
-      <li>Next: <a href="../versioning/git.html" title="next chapter">4. Using Git For Versioning (for the adventurous)</a></li>
+      <li>Previous: <a href="../dry/be_dry.html" title="previous chapter">3. The DRY Principle</a></li>
+      <li>Next: <a href="../versioning/git.html" title="next chapter">5. Using Git For Versioning (for the adventurous)</a></li>
   </ul></li>
 </ul>
 </div>
