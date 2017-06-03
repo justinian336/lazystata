@@ -1,0 +1,183 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. The DRY Principle &#8212; lazystata 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Think of Do Files Like Lego" href="../modules/modules.html" />
+    <link rel="prev" title="1. Give Your Project Some Structure" href="../structure/structure.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-dry-principle">
+<h1>2. The DRY Principle<a class="headerlink" href="#the-dry-principle" title="Permalink to this headline">¶</a></h1>
+<p><strong>DRY</strong> stands for <em>Don’t Repeat Yourself</em>. It’s the principle that says that you should simplyfy your code by eliminating repetitions.</p>
+<div class="section" id="global-variables">
+<h2>2.1. Global Variables<a class="headerlink" href="#global-variables" title="Permalink to this headline">¶</a></h2>
+<p>One important source of repetitions in Stata Do files are directory names. Often, you perform many saving and opening operations over files located under the same directory.</p>
+<p>This can be annoying when doing collaborative research, because directory names are usually not the same for all researchers. What ends up happening, is that each researcher will have to change the directory name to accomodate their file system, which is a waste of time.</p>
+<p>You can make it easy for other researchers to follow, by defining the directory name into a global variable:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">global</span> <span class="n">var</span> <span class="n">main_dir</span> <span class="o">=</span> <span class="s2">&quot;C:\Users\MyUser\Research\Project</span><span class="se">\&quot;</span>
+<span class="k">global</span> <span class="n">var</span> <span class="n">parents_data</span> <span class="o">=</span> <span class="s2">&quot;parents&quot;</span>
+<span class="k">global</span> <span class="n">var</span> <span class="n">children_data</span> <span class="o">=</span> <span class="s2">&quot;children&quot;</span>
+<span class="k">global</span> <span class="n">var</span> <span class="n">family_data</span> <span class="o">=</span> <span class="s2">&quot;family_data&quot;</span>
+</pre></div>
+</div>
+<p>Then, you’d use it across your project as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">save</span> <span class="s2">&quot;$main_dir\$children_data\children_survey.dta&quot;</span><span class="p">,</span> <span class="n">replace</span>
+
+<span class="n">sort</span> <span class="n">family_ID</span>
+<span class="n">merge</span> <span class="n">family_ID</span> <span class="n">using</span> <span class="s2">&quot;$main_dir\$parents_data\parents_survey.dta&quot;</span>
+<span class="n">save</span> <span class="s2">&quot;$main_dir</span><span class="se">\f</span><span class="s2">amily_data</span><span class="se">\f</span><span class="s2">amily.dta&quot;</span>
+</pre></div>
+</div>
+<p>As you can see, the path in <cite>main_dir</cite> is present three times in this file. Changing the text one by one would be a real trouble. By defining the path through a global variable, this task has been reduced to changing just one line of code!</p>
+</div>
+<div class="section" id="loops">
+<h2>2.2. Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
+<p>Do files often contain blocks that repeat a single logic once and once again. Look at this example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gen</span> <span class="n">total_primary</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_primary</span><span class="p">,</span> <span class="n">girls_primary</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_secondary</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_secondary</span><span class="p">,</span> <span class="n">girls_secondary</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_university</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_university</span><span class="p">,</span> <span class="n">girls_university</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Obviously there’s some repetition here, which could easily be refactored into:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>foreach i in &quot;primary&quot; &quot;secondary&quot; &quot;university&quot; {
+        gen total_`i&#39; = rowtotal(boys_`i&#39;, girls_`i&#39;)
+}
+</pre></div>
+</div>
+<p>Much cleaner! Maybe you’ll tell me that we haven’t achieved much, since we’re still using three lines of code. Well, look at the following block:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gen</span> <span class="n">total_grade_1</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_1</span><span class="p">,</span> <span class="n">girls_grade_1</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_2</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_2</span><span class="p">,</span> <span class="n">girls_grade_2</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_3</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_3</span><span class="p">,</span> <span class="n">girls_grade_3</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_4</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_4</span><span class="p">,</span> <span class="n">girls_grade_4</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_5</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_5</span><span class="p">,</span> <span class="n">girls_grade_5</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_6</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_1</span><span class="p">,</span> <span class="n">girls_grade_6</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_7</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_7</span><span class="p">,</span> <span class="n">girls_grade_7</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_8</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_8</span><span class="p">,</span> <span class="n">girls_grade_8</span><span class="p">)</span>
+<span class="n">gen</span> <span class="n">total_grade_9</span> <span class="o">=</span> <span class="n">rowtotal</span><span class="p">(</span><span class="n">boys_grade_9</span><span class="p">,</span> <span class="n">girls_grade_9</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is wrong on several levels:</p>
+<ul class="simple">
+<li>First, the person who wrote this most certainly copied the first line nine times, and then changed the numbers. This is error prone! In this case, there’s an error on line 6, because the person did not substitute the <cite>boys_grade_1</cite> variable inside the <cite>rowtotal</cite> function.</li>
+<li>Second, large blocks of repetitive code make it difficult to notice such errors, which is scary. If you submitted your paper to an academic journal, a referee would have noted that the summary statistics for grade 6 don’t match. You’d then have to reply that it was a copy-paste error… how awkward is that!?</li>
+</ul>
+<p>Believe or not, researchers are humans too, they shouldn’t put their attention span to test in blocks like that one. A cleaner solution would be:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>foreach g of numlist 1/9{
+        gen total_grade_`g&#39; = rowtotal(boys_grade_`g&#39;, girls_grade_`g&#39;)
+}
+</pre></div>
+</div>
+<p>This is a much simpler piece of code that explains itself and is less error-prone.</p>
+<p>If you wanted to make it even more descriptive, you could throw in some <strong>display</strong> statements to help you know where the loop is running, and add a comment line before the loop explaining what it does:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>// Generate total number of students by grade:
+foreach g of numlist 1/9{
+        display &quot;Generating total_grade_&quot;`g&#39;
+        gen total_grade_`g&#39; = rowtotal(boys_grade_`g&#39;, girls_grade_`g&#39;)
+}
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Don’t over-simplify your code to the point where it becomes hard to understand. The purpose here is to make your code readable to other humans, including you in the future. Therefore, readability has the biggest priority.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. The DRY Principle</a><ul>
+<li><a class="reference internal" href="#global-variables">2.1. Global Variables</a></li>
+<li><a class="reference internal" href="#loops">2.2. Loops</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../structure/structure.html" title="previous chapter">1. Give Your Project Some Structure</a></li>
+      <li>Next: <a href="../modules/modules.html" title="next chapter">3. Think of Do Files Like Lego</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/dry/be_dry.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Juan Martinez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/dry/be_dry.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

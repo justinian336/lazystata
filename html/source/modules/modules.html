@@ -1,0 +1,165 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Think of Do Files Like Lego &#8212; lazystata 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="think-of-do-files-like-lego">
+<h1>Think of Do Files Like Lego<a class="headerlink" href="#think-of-do-files-like-lego" title="Permalink to this headline">¶</a></h1>
+<p>The data crunching part of research tends to go through the following stages, some of which overlap:</p>
+<ol class="arabic simple">
+<li><strong>Data cleaning</strong>: reading the raw data (possibly a <cite>csv</cite> file), renaming the variables (hopefuly in a way that’s easy to understand), creating lables, etc. This can involve different files from different sources.</li>
+<li><strong>Merging the data</strong>: at the end of the day you’ll work with only one dataset, containing only the variables you need for analysis.</li>
+<li><strong>Transforming the data</strong>: creating the variables to include in your econometric model.</li>
+<li><strong>Analyzing</strong></li>
+<li><strong>Storing and formatting results</strong></li>
+</ol>
+<p>Even when each stage is performed with different code, many people tend to put all this into one single Do file. This is a bad idea and a main cause of stress.</p>
+<p>Consider this: data cleaning can be the longest, most annoying parts of research. You might have heard this famous quote:</p>
+<blockquote>
+<div><p><em>“I had to spend one month cleaning the data just to estimate this regression in less than an hour”</em></p>
+<p><em>Every Economics researcher ever</em></p>
+</div></blockquote>
+<p>By putting your data cleaning code in the same Do file that contains your analysis code, you’re guaranteeing that you have to look at it every single time you wanna tune your equations.</p>
+<p>If you’re lazy, you can simply run the whole file, which will risk overwriting your files in probably unexpected ways. This will also take an unnecessary amount of time.</p>
+<p>But even if you take the time to search and select the exact piece of code you need to re-run, isn’t that wasteful?</p>
+<p>Believe me, large Do files are a big source of stress, avoid them by breaking up your code in parts in a logical way.</p>
+<div class="section" id="separating-concerns">
+<h2>Separating Concerns<a class="headerlink" href="#separating-concerns" title="Permalink to this headline">¶</a></h2>
+<p>Many Computer Scientists share the view that one piece of code should do just one thing, and do it very well. In Stata, you can follow this principle by dividing your code in many Do files that do one thing in specific. Then, create a <em>Run this.do</em> file that calls the other Do files in steps, performing all the necessary operations in order.</p>
+<p>See the following example of a Do file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">set</span> <span class="n">more</span> <span class="n">off</span>
+
+<span class="n">clear</span>
+<span class="k">global</span> <span class="n">parent_directory</span> <span class="s2">&quot;C:\Users\Juan\Documents\Research\Project 1&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+
+<span class="o">*</span><span class="mi">1</span><span class="p">)</span> <span class="n">Clean</span> <span class="n">the</span> <span class="n">children</span> <span class="n">household</span> <span class="n">survey</span> <span class="n">data</span> <span class="n">files</span><span class="o">.</span>
+<span class="n">do</span> <span class="s2">&quot;1 Clean children data.do&quot;</span> <span class="s2">&quot;$parent_directory\children&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+<span class="n">clear</span>
+
+<span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="n">Clean</span> <span class="n">the</span> <span class="n">parents</span> <span class="n">household</span> <span class="n">survey</span> <span class="n">data</span> <span class="n">files</span><span class="o">.</span>
+<span class="n">do</span> <span class="s2">&quot;2 Clean parents data.do&quot;</span> <span class="s2">&quot;$parent_directory\parents&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+<span class="n">clear</span>
+
+<span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="n">Clean</span> <span class="n">prefectures</span> <span class="n">data</span><span class="o">.</span>
+<span class="n">do</span> <span class="s2">&quot;3 Clean prefectures data.do&quot;</span> <span class="s2">&quot;$parent_directory\prefectures&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+<span class="n">clear</span>
+
+<span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="n">Merge</span> <span class="ow">and</span> <span class="n">create</span> <span class="n">panel</span><span class="o">.</span>
+<span class="n">do</span> <span class="s2">&quot;4 Merge and create panel.do&quot;</span> <span class="s2">&quot;$parent_directory\workfiles&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+<span class="n">clear</span>
+
+<span class="o">*</span><span class="mi">5</span><span class="p">)</span> <span class="n">Create</span> <span class="n">variables</span> <span class="k">for</span> <span class="n">analysis</span><span class="o">.</span>
+<span class="n">do</span> <span class="s2">&quot;5 Create variables for analysis.do&quot;</span> <span class="s2">&quot;$parent_directory&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+
+<span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="n">Analysis</span> <span class="ow">and</span> <span class="n">results</span><span class="o">.</span>
+<span class="n">do</span> <span class="s2">&quot;6 Analysis and results.do&quot;</span> <span class="s2">&quot;$parent_directory&quot;</span>
+<span class="n">cd</span> <span class="s2">&quot;$parent_directory&quot;</span>
+</pre></div>
+</div>
+<p>Do you see? <cite>Run this.do</cite> aggregates all the other files in steps. The home directory is passed as an argument and is accessible to every Do file through the local variable <strong>`1’</strong>. Now you don’t have to worry about being in the right directory, you’d just have to change one line!</p>
+<p>This is a <strong>lego</strong> structure, because it allows you to modify individual parts of your workflow without having to see (or risk making unintended changes to) the other files. You can modify, for example, the file <cite>5 Create variables for analysis.do</cite> and you’d just have to run steps 5 and 6.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Think of Do Files Like Lego</a><ul>
+<li><a class="reference internal" href="#separating-concerns">Separating Concerns</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/source/modules/modules.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Juan Martinez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/source/modules/modules.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

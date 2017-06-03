@@ -1,9 +1,0 @@
-A Guide For Whom?
-===========================
-
-Stata users, including professors, researchers and graduate students. Anyone doing collaborative research and submitting empirical research can find some useful tips here, as long as you use Stata for crunching your data.
-
-This guide doesn't deal with creating Stata modules. It's aimed at the users of those modules.
-
-It's mainly aimed at Stata users, not package developers.
-
